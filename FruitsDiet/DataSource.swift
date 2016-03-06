@@ -41,7 +41,7 @@ class DataSource {
                         let group = dict["group"] as! String
                         
                         let fruit = Fruit(name: name, group: group)
-                        if !contains(groups, group){
+                        if !groups.contains(group){
                             groups.append(group)
                         }
                         fruits.append(fruit)

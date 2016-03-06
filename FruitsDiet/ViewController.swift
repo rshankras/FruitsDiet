@@ -59,7 +59,7 @@ class ViewController: UIViewController {
     
     // MARK:- Should Perform Segue
     
-    override func shouldPerformSegueWithIdentifier(identifier: String?, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         return !editing
     }
     
@@ -69,8 +69,8 @@ class ViewController: UIViewController {
         
         var indexPath:NSIndexPath?
         
-        if collectionView.indexPathsForSelectedItems().count > 0 {
-            indexPath = collectionView.indexPathsForSelectedItems()[0] as? NSIndexPath
+        if collectionView.indexPathsForSelectedItems()!.count > 0 {
+            indexPath = collectionView.indexPathsForSelectedItems()![0] 
         }
         return indexPath
     }
@@ -115,9 +115,7 @@ class ViewController: UIViewController {
         if let indexpaths = indexpaths {
             
             for item  in indexpaths {
-                let cell = collectionView!.cellForItemAtIndexPath(item as! NSIndexPath)
-                
-                collectionView?.deselectItemAtIndexPath(item as? NSIndexPath, animated: true)
+                collectionView?.deselectItemAtIndexPath((item), animated: true)
                 // fruits for section
                 let sectionfruits = dataSource.fruitsInGroup(item.section)
                 deletedFruits.append(sectionfruits[item.row])
@@ -176,6 +174,18 @@ extension ViewController : UICollectionViewDelegate {
     
      func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
         highlightCell(indexPath, flag: false)
+    }
+}
+
+extension ViewController: UICollectionViewDelegateFlowLayout {
+    // MARK:- UICollectioViewDelegateFlowLayout methods
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
+    {
+        // http://stackoverflow.com/questions/28872001/uicollectionview-cell-spacing-based-on-device-sceen-size
+        
+        let length = (UIScreen.mainScreen().bounds.width-15)/2
+        return CGSizeMake(length,length);
     }
 }
 
